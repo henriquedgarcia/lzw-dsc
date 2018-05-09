@@ -4,7 +4,7 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cc \
-    lzwcoder.cc
+    lzwcodec.cc
 
 HEADERS += \
-    lzwcoder.h
+    lzwcodec.h

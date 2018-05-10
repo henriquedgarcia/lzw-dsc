@@ -20,26 +20,27 @@ int LZWCodec::Encoder(string nameIn, string nameOut)
   deque<uc> temp;
   ui index = 0;
   int c;
-
+  int count = 0;
   while((c = m_inputFile.get()) != EOF)
     {
+      cout << "\npegou caractere " << (char) c << ", numero = " << ++count << endl;
       temp = phrase;
       temp.push_back ((uc) c);
       bool found = false;
 
       // Se phrase existe no dicionário
-      // cout << "\nProcurando temp = "; {for (auto i : temp) cout << (char) i;} cout << endl;
+       cout << "\nProcurando temp = "; {for (auto i : temp) cout << (char) i;} cout << endl;
       for (ui i = 0; i < m_dictionary.size (); i++)
         {
           if (m_dictionary[i] == phrase)
             {
-              // cout << "phrase = "; for (auto i : phrase) cout << (char) i; cout << ", encontrado no índice = " << i << endl;
+               cout << "phrase = "; for (auto i : phrase) cout << (char) i; cout << ", encontrado no índice = " << i << endl;
               index = i;
             }
 
           if (m_dictionary[i] == temp)
             {
-              // cout << "temp = "; {for (auto i : temp) cout << (char) i;} cout << " encontrada no indice = " << i << ", Atualizando busca" << endl;
+               cout << "temp = "; {for (auto i : temp) cout << (char) i;} cout << " encontrada no indice = " << i << ", Atualizando busca" << endl;
               phrase = temp;
               found = true;
               break;
@@ -48,7 +49,7 @@ int LZWCodec::Encoder(string nameIn, string nameOut)
 
       if (found == false)
         {
-          // cout << "temp = "; {for (auto i : temp) cout << (char) i;} cout << " NÃO encontrada. Salvando ultimo indice = " << (ui) index << endl;
+           cout << "temp = "; {for (auto i : temp) cout << (char) i;} cout << " NÃO encontrada. Salvando ultimo indice = " << (ui) index << endl;
           m_dictionary.push_back (temp);
           m_output.push_back (index);
           phrase = deque<uc> {(uc) c};
@@ -58,7 +59,7 @@ int LZWCodec::Encoder(string nameIn, string nameOut)
   for (ui i = 0; i < m_dictionary.size (); i++)
     if (m_dictionary[i] == phrase) {index = i;break;}
 
-  // cout << "Fim dos caracteres gravando index = " << index << "para o phrase = ";for (auto i : phrase) cout << (char) i;cout << endl;
+   cout << "Fim dos caracteres gravando index = " << index << "para o phrase = ";for (auto i : phrase) cout << (char) i;cout << endl;
 
   m_output.push_back (index);
 
@@ -70,6 +71,7 @@ int LZWCodec::Encoder(string nameIn, string nameOut)
 
   // for debug only
   ShowDic();
+  ShowOutput ();
   GravaSaida();
   m_outputFile.close ();
   return m_output.size ();
@@ -88,7 +90,7 @@ int LZWCodec::Decoder(string nameIn, string nameOut)
   m_inputFile.clear();
 
   m_inputFile.read((char*) (&current), sizeof(current));
-  cout << "current = " << hex <<  current << endl;
+//  cout << "current = " << hex <<  current << endl;
   m_outputDecoder = deque<deque<uc>>{m_dictionary[current]};
 
   previous = current;
@@ -116,6 +118,7 @@ int LZWCodec::Decoder(string nameIn, string nameOut)
     }
 
   GravaSaidaDecoder();
+  ShowDic ();
   return m_outputDecoder.size ();
 }
 

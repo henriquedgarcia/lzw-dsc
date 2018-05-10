@@ -7,6 +7,8 @@
 #include <iostream>
 
 typedef unsigned char uc;
+typedef unsigned int ui;
+
 
 using namespace std;
 
@@ -15,19 +17,22 @@ class LZWCodec
 public:
   LZWCodec();
   int Encoder(string nameIn, string nameOut);
+  int Decoder(string nameIn, string nameOut);
 
 private:
   fstream m_inputFile;
   fstream m_outputFile;
-  size_t m_alphabetSize = 256;
+  ui m_alphabetSize = 256;
   deque<deque<uc>> m_dictionary;
-  deque<uc> m_output;
-  size_t m_index;
+  deque<ui> m_output;
+  deque<deque<uc>> m_outputDecoder;
 
-
-
+  void GravaSaidaDecoder(void);
   void OpenFiles(string nameIn, string nameOut);
-  struct doublet FindPhrase(void);
+  void GravaSaida(void);
+  void ShowDic(void);
+  void ShowOutput(void);
+
 };
 
 #endif // LZWCODER_H

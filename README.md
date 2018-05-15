@@ -1,5 +1,11 @@
 # lzw-dsc
 Codificador LZW para a disciplina de codificação digital de sinais, ENE-UnB.
+Uso:
+lzw-dsc inputFile
+
+o programa codificará o arquivo e o salvará com o nome 0-inputFile.lzw
+e decodificara o arquivo e o salvará com o nome 0-inputFile
+
 
 P   -> Um string com as letras a serem procuradas
 c   -> um caractere de entrada
